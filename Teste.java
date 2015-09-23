@@ -69,7 +69,7 @@ public class Teste implements Runnable{
 	public void calculateRandom(){
 		Random gerar = new Random();
 		
-		boolean resultado = gerador.nextBoolean();
+		boolean resultado = gerar.nextBoolean();
 		
 		System.out.println(resultado);
 		}

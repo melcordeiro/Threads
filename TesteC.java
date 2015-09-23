@@ -1,9 +1,10 @@
 import java.io.*;
 import java.util.List;
-import java.util.Random;
 import java.util.ArrayList;
+import java.util.Random;
+import java.lang.*;
 
-public class Teste_cesar implements Runnable{
+public class TesteC implements Runnable{
 
 	static Thread threadListen;
 	static Thread threadPushNumber;	
@@ -13,37 +14,25 @@ public class Teste_cesar implements Runnable{
 	
 	
 	public static void main (String[] args) {
-	Teste e = new Teste();
+	TesteC e = new TesteC();
 	
 	
 	threadPushNumber = new Thread(e);
 	threadPopNumber = new Thread(e);
 	threadListen = new Thread(e);
-	
 	numberstack = new ArrayList();
-	
 
 	threadListen.start();
-	/*threadPopNumber.start();
-	threadPushNumber.start();*/
+	threadPopNumber.start();
+	threadPushNumber.start();
+	
+		
+	
+	
 	
 }
 	public void run() {
 		Thread currentThread = Thread.currentThread();
-		
-		if (currentThread == threadPushNumber)
-			push();
-		else if (currentThread == threadPopNumber)
-			pop();
-		else if (currentThread == threadListen)
-			listenKeyboard();
-		
-	}
-
-	
-
-	public void listenKeyboard()
-	{
 		BufferedReader imput = new BufferedReader(new InputStreamReader(System.in));
 		//InputStreamReader(System.in));
 		String line = "";
@@ -52,17 +41,11 @@ public class Teste_cesar implements Runnable{
 			try 
 			{
 				line = imput.readLine();
-				if(line.equals("push"))
-				{
-				  threadPushNumber.start();
-				  threadPopNumber.stop();	
-				}
-				else if(line.equals("pop"))
-				{
-				  threadPushNumber.stop();
-				  threadPopNumber.start();	
-				}	
-				
+				if ((currentThread == threadPushNumber) && (line.equals("push")))
+					push();
+				else if ((currentThread == threadPopNumber) && (line.equals("pop")))
+					pop();
+	
 			}
 			catch (IOException exception) {}
 		}
@@ -76,13 +59,29 @@ public class Teste_cesar implements Runnable{
 			
 		System.out.printf("");
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+
+	
+
+	public void listenKeyboard()
+	{
+		
 	}
 		
 	
 	public Integer calculateRandomNumber()
 	{
 		Random gerador = new Random();
-		return gerador.nextInt(10000);
+		return (Integer)10000;
 	}
 
 	public void pop()
@@ -92,27 +91,13 @@ public class Teste_cesar implements Runnable{
 		numberstack.remove(0);
 		System.out.printf("Removed +" + i + "from the stack.");
 		
-
-		try
-		{
-		threadPopNumber.sleep(3000);
-	
-		}catch(Exception e){}
-		
 	}
 	
 	public void push() 
 	{
+		
 		numberstack.add(calculateRandomNumber());
-		System.out.println("Added "+ numberstack.get(numberstack.size()-1) + "to the stack.");
-
-		try
-		{
-		threadPushNumber.sleep(3000);
-	
-		}catch(Exception e){}
-		
-		
+		System.out.println("Added "+ numberstack.get(numberstack.size()-1) + " to the stack.");
 	}
 }
 
